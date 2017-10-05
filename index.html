@@ -57,55 +57,37 @@
 
       <!-- Content Row -->
       <div class="row">
-        <div class="col-md-3 mb-3">
+        <div class="col-md-6 mb-6">
           <div class="card h-100">
             <div class="card-body">
-              <h2 class="card-title">MXN -> USD</h2>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
-            </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Coming soon....</a>
+              <h2 class="card-title">MXN <-> USD</h2>
+              <div class="form-group">
+              	<label for="usr">MXN</label>
+              	<input type="float" class="form-control" id="valueA_1">
+              </div>
+              <div class="form-group">
+              	<label for="pwd">USD</label>
+              	<input type="float" class="form-control" id="valueA_2" value="1">
+              </div>
             </div>
           </div>
         </div>
         <!-- /.col-md-4 -->
-        <div class="col-md-3 mb-3">
+        <div class="col-md-6 mb-6">
           <div class="card h-100">
             <div class="card-body">
-              <h2 class="card-title">USD -> MXN</h2>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod tenetur ex natus at dolorem enim! Nesciunt pariatur voluptatem sunt quam eaque, vel, non in id dolore voluptates quos eligendi labore.</p>
-            </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Coming soon....</a>
+              <h2 class="card-title">MXN <-> EUR</h2>
+              <div class="form-group">
+              	<label for="usr">MXN</label>
+              	<input type="float" class="form-control" id="valueB_1">
+              </div>
+              <div class="form-group">
+              	<label for="pwd">EUR</label>
+              	<input type="float" class="form-control" id="valueB_2" value="1">
+              </div>
             </div>
           </div>
         </div>
-        <!-- /.col-md-4 -->
-        <div class="col-md-3 mb-3">
-          <div class="card h-100">
-            <div class="card-body">
-              <h2 class="card-title">MXN -> EUR</h2>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
-            </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Coming soon....</a>
-            </div>
-          </div>
-        </div>
-        <!-- /.col-md-4 -->
-
-        <div class="col-md-3 mb-3">
-          <div class="card h-100">
-            <div class="card-body">
-              <h2 class="card-title">EUR -> MXN</h2>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
-            </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Coming soon....</a>
-            </div>
-          </div>
-        </div>
-
       </div>
       <!-- /.row -->
 
@@ -124,6 +106,52 @@
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/popper/popper.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+
+    <script type="text/javascript">
+    	
+    	$(document).ready(function(){
+
+    		var USD = 0;
+    		var EUR = 0;
+
+
+    		//De aqui obtenemos los valores actualizados de las Divisas por ejemplo
+
+    		$.get('http://api.fixer.io/latest?base=MXN', function(data) {
+    			console.log(data);
+    			USD = data.rates['USD'];
+    			EUR = data.rates['EUR'];
+
+    			$("#valueA_1").val(1 / USD); 
+    			$("#valueB_1").val(1 / EUR);
+    		});
+
+    		//Conversion de pesos Mexicanos a Dolares
+    		$("#valueA_1").on("change paste keyup", function() {
+    			console.log("aaaaaaaaa");
+    				$("#valueA_2").val($(this).val() * USD);
+    		});
+
+    		//Conversion de USD a MXN
+    		$("#valueA_2").on("change paste keyup", function() {
+    				$("#valueA_1").val($(this).val() / USD);
+    		});
+
+    		//Conversion de pesos Mexicanos a Euros
+    		$("#valueB_1").on("change paste keyup", function() {
+    				$("#valueB_2").val($(this).val() * EUR);
+    		});
+
+    		//Conversion de EUR a MXN
+    		$("#valueB_2").on("change paste keyup", function() {
+    				$("#valueB_1").val($(this).val() / EUR);
+    		});
+
+
+    	});
+
+    </script>
 
   </body>
 
